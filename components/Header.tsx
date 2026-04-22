@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart } from 'lucide-react';
 import { AppSettings } from '../types';
+import { Lotus } from './Ornaments';
 
 interface HeaderProps {
   settings: AppSettings;
@@ -17,12 +18,15 @@ const Header: React.FC<HeaderProps> = ({ settings, updateSetting }) => {
     }`;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-900/80 backdrop-blur-lg h-14 transition-colors duration-300">
+    <header className="sticky top-0 z-50 w-full border-b border-monk-red/15 dark:border-monk-saffron/20 bg-white/75 dark:bg-stone-900/80 backdrop-blur-lg h-14 transition-colors duration-300 shadow-[0_1px_0_rgba(212,168,75,0.25)]">
       <div className="container mx-auto h-full max-w-4xl px-4 flex items-center justify-between">
-        
+
         {/* Left: Branding */}
-        <div className="font-serif font-bold text-stone-700 dark:text-stone-200 text-lg tracking-tight">
-          Kurukulle Sadhana
+        <div className="flex items-center gap-2">
+          <Lotus size={22} className="text-monk-red dark:text-monk-saffron drop-shadow-sm" />
+          <div className="font-serif font-bold text-stone-700 dark:text-stone-200 text-lg tracking-tight">
+            Kurukulle <span className="text-monk-red/70 dark:text-monk-saffron/80 font-normal italic">Sadhana</span>
+          </div>
         </div>
 
         {/* Right: Controls */}

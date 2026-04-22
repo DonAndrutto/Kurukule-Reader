@@ -5,6 +5,7 @@ import { PRAYER_DATA } from './constants';
 import BottomBar from './components/BottomBar';
 import Header from './components/Header';
 import PrayerBlock from './components/PrayerBlock';
+import { EndlessKnot, Flourish } from './components/Ornaments';
 
 const App: React.FC = () => {
   // --- State ---
@@ -267,10 +268,12 @@ const App: React.FC = () => {
                 ref={el => { sectionRefs.current[sIdx] = el; }}
             >
                 {section.title && sIdx > 0 && (
-                     <div className="flex items-center gap-4 my-6 opacity-40">
-                        <div className="h-px bg-stone-400 flex-grow"></div>
-                        <span className="font-serif italic text-sm text-stone-500 uppercase tracking-widest text-center">{section.title}</span>
-                        <div className="h-px bg-stone-400 flex-grow"></div>
+                     <div className="flex items-center gap-3 my-8">
+                        <div className="h-px bg-gradient-to-r from-transparent via-monk-gold/60 to-monk-red/40 dark:via-monk-saffron/50 dark:to-monk-saffron/30 flex-grow"></div>
+                        <EndlessKnot size={18} className="text-monk-red/70 dark:text-monk-saffron/80 shrink-0" />
+                        <span className="font-serif italic text-xs text-stone-500 dark:text-stone-400 uppercase tracking-[0.2em] text-center">{section.title}</span>
+                        <EndlessKnot size={18} className="text-monk-red/70 dark:text-monk-saffron/80 shrink-0" />
+                        <div className="h-px bg-gradient-to-l from-transparent via-monk-gold/60 to-monk-red/40 dark:via-monk-saffron/50 dark:to-monk-saffron/30 flex-grow"></div>
                      </div>
                 )}
                 
@@ -284,31 +287,48 @@ const App: React.FC = () => {
 
                 {/* Insert Mandala Image after the first section (Introduction) */}
                 {sIdx === 0 && (
-                    <div 
+                    <div
                         ref={mandalaRef}
-                        className="mt-2 mb-20 flex justify-center items-center transition-all duration-100 ease-out will-change-transform will-change-opacity"
+                        className="mt-4 mb-24 flex justify-center items-center transition-all duration-100 ease-out will-change-transform will-change-opacity"
                     >
-                        <div className="relative p-1.5 md:p-3 rounded-full border border-monk-red/20 dark:border-monk-saffron/20 shadow-2xl shadow-monk-red/10 bg-white/50 dark:bg-stone-800/50 backdrop-blur-sm w-[90vw] h-[90vw] md:w-[600px] md:h-[600px] max-w-full">
-                             <img 
-                                src="https://s6.imgcdn.dev/Y7uT2D.png" 
-                                alt="Kurukulle Mandala" 
-                                className="w-full h-full object-cover rounded-full opacity-90 hover:opacity-100 transition-opacity duration-700"
-                             />
+                        <div className="relative w-[90vw] h-[90vw] md:w-[600px] md:h-[600px] max-w-full">
+                            {/* Aura halo */}
+                            <div className="absolute inset-[-8%] rounded-full mandala-aura animate-aura-pulse pointer-events-none" aria-hidden="true"></div>
+
+                            {/* Slowly rotating dashed gold ring */}
+                            <div className="absolute inset-[-3%] rounded-full ring-dashed-gold animate-mandala-spin opacity-70 pointer-events-none" aria-hidden="true"></div>
+
+                            {/* Main framed image */}
+                            <div className="relative p-2 md:p-3 rounded-full border border-monk-gold/40 dark:border-monk-saffron/30 shadow-[0_20px_60px_-15px_rgba(139,0,0,0.35)] dark:shadow-[0_20px_60px_-15px_rgba(255,153,51,0.25)] bg-gradient-to-br from-white/60 via-parchment to-monk-gold/10 dark:from-stone-800/70 dark:via-stone-900/50 dark:to-monk-red/20 backdrop-blur-sm w-full h-full">
+                                {/* Inner thin gold ring */}
+                                <div className="absolute inset-2 md:inset-3 rounded-full ring-1 ring-monk-gold/30 dark:ring-monk-saffron/30 pointer-events-none" aria-hidden="true"></div>
+                                <img
+                                    src="https://s6.imgcdn.dev/Y7uT2D.png"
+                                    alt="Kurukulle Mandala"
+                                    className="w-full h-full object-cover rounded-full opacity-95 hover:opacity-100 transition-opacity duration-700"
+                                />
+                            </div>
                         </div>
                     </div>
                 )}
             </div>
         ))}
 
-        <div className="h-32 flex items-center justify-center opacity-30 text-stone-500 italic font-serif">
-            Sarva Mangalam
+        <div className="h-40 flex flex-col items-center justify-center gap-3 text-stone-500 dark:text-stone-400">
+            <Flourish size={140} className="text-monk-gold/60 dark:text-monk-saffron/50" />
+            <div className="flex items-center gap-3 opacity-70">
+                <EndlessKnot size={16} className="text-monk-red/60 dark:text-monk-saffron/70" />
+                <span className="italic font-serif tracking-wide">Sarva Mangalam</span>
+                <EndlessKnot size={16} className="text-monk-red/60 dark:text-monk-saffron/70" />
+            </div>
+            <Flourish size={140} flip className="text-monk-gold/60 dark:text-monk-saffron/50" />
         </div>
       </main>
-      
+
       {/* Back Up Button */}
       <button
         onClick={handleBackUp}
-        className={`fixed bottom-24 right-6 z-40 p-3 rounded-full bg-monk-red text-white shadow-xl shadow-monk-red/20 transition-all duration-300 transform hover:scale-110 active:scale-90 ${
+        className={`fixed bottom-24 right-6 z-40 p-3 rounded-full bg-gradient-to-br from-monk-red to-monk-crimson text-white ring-1 ring-monk-gold/40 shadow-xl shadow-monk-red/30 hover:shadow-monk-red/50 transition-all duration-300 transform hover:scale-110 active:scale-90 ${
             showScrollUp ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'
         }`}
         aria-label="Back to previous section (Double tap for top)"
