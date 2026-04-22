@@ -303,7 +303,7 @@ const App: React.FC = () => {
                                 {/* Inner thin gold ring */}
                                 <div className="absolute inset-2 md:inset-3 rounded-full ring-1 ring-monk-gold/30 dark:ring-monk-saffron/30 pointer-events-none" aria-hidden="true"></div>
                                 <img
-                                    src="https://s6.imgcdn.dev/Y7uT2D.png"
+                                    src="https://raw.githubusercontent.com/DonAndrutto/Media/main/kurukulla-mandala-reference-full.png"
                                     alt="Kurukulle Mandala"
                                     className="w-full h-full object-cover rounded-full opacity-95 hover:opacity-100 transition-opacity duration-700"
                                 />
