@@ -6,7 +6,7 @@ export interface AppSettings {
   showTibetan: boolean;
 }
 
-export type BlockType = 'title' | 'subtitle' | 'verse' | 'instruction' | 'mantra' | 'dedication';
+export type BlockType = 'title' | 'subtitle' | 'verse' | 'instruction' | 'mantra' | 'dedication' | 'image';
 
 export interface PrayerBlockData {
   id: string;
@@ -15,6 +15,7 @@ export interface PrayerBlockData {
   phonetics?: string;
   english?: string;
   instruction?: string; // For instructions that might appear mid-text
+  src?: string; // For image blocks
 }
 
 export interface Section {

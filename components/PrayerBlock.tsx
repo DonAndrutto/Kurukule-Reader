@@ -72,6 +72,18 @@ const PrayerBlock: React.FC<PrayerBlockProps> = ({ data, settings }) => {
     );
   }
 
+  if (data.type === 'image') {
+    return (
+      <div className="flex justify-center my-8 animate-fade-in">
+        <img
+          src={data.src}
+          alt={data.english || 'Image'}
+          className="max-w-2xl w-full h-auto rounded-lg shadow-lg"
+        />
+      </div>
+    );
+  }
+
   // Verse and Mantra
   const isMantra = data.type === 'mantra';
 

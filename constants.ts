@@ -710,6 +710,12 @@ export const PRAYER_DATA: Section[] = [
         english: "OM PADMA DAKINI KURU KULLE HA RI NI SA SARWA SIDDHI LOKA WA SHANG KURU HRI SVA HA"
       },
       {
+        id: "kurukulle-image",
+        type: "image",
+        src: "https://raw.githubusercontent.com/DonAndrutto/Media/c88d0945da12daa4e1806d3751c67cf4cea36d7e/Gemini%20Kurukulle%202%20-%20Edited.png",
+        english: "Kurukulle"
+      },
+      {
         id: "mantra-inst-2",
         type: "instruction",
         english: "The mantras of approach, accomplishment, and action should be recited as much as possible. Then at the end:"
