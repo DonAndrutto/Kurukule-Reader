@@ -3,23 +3,25 @@ import { ChevronUp } from 'lucide-react';
 import { AppSettings, Section } from './types';
 import { PRAYER_DATA } from './constants';
 import BottomBar from './components/BottomBar';
-import Header from './components/Header';
+import Header, { donationURL } from './components/Header';
 import PrayerBlock from './components/PrayerBlock';
-import { EndlessKnot, Flourish } from './components/Ornaments';
+import portrait from './assets/kurukulle.jpg';
+import './reader.css';
 
 const App: React.FC = () => {
   // --- State ---
   const [settings, setSettings] = useState<AppSettings>(() => {
-    const saved = localStorage.getItem('kurukulle-app-settings');
-    return saved ? JSON.parse(saved) : {
-      fontSize: 18,
-      isDarkMode: false,
-      showPhonetics: true,
-      showTranslation: true,
-      showTibetan: true,
-    };
+    const defaults = { fontSize: 18, isDarkMode: false, showPhonetics: true, showTranslation: true, showTibetan: true };
+    try {
+      const saved = JSON.parse(localStorage.getItem('kurukulle-app-settings') || '{}');
+      return { ...defaults, ...saved };
+    } catch {
+      return defaults;
+    }
   });
   
+  const donationPrompt = useRef<HTMLDialogElement>(null);
+  const donationShown = useRef(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [scrollSpeed, setScrollSpeed] = useState(2);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
@@ -28,7 +30,7 @@ const App: React.FC = () => {
   const [showScrollUp, setShowScrollUp] = useState(false);
 
   // --- Refs ---
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
   const mandalaRef = useRef<HTMLDivElement>(null);
   const lastScrollTime = useRef<number>(0);
   const scrollAccumulator = useRef<number>(0);
@@ -55,16 +57,18 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleFsChange = () => setIsFullScreen(!!document.fullscreenElement);
     document.addEventListener('fullscreenchange', handleFsChange);
-    
-    if (!document.fullscreenElement && isFullScreen) {
-      const docEl = document.documentElement;
-      if (docEl.requestFullscreen) docEl.requestFullscreen().catch((e) => console.log(e));
-    } else if (document.fullscreenElement && !isFullScreen) {
-      if (document.exitFullscreen) document.exitFullscreen().catch((e) => console.log(e));
-    }
-    
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
-  }, [isFullScreen]);
+  }, []);
+
+  const toggleFullScreen = async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+      else setIsFullScreen(value => !value);
+    } catch {
+      setIsFullScreen(value => !value);
+    }
+  };
 
   // 4. Scroll Listener for "Back Up" button and Mandala Fade
   useEffect(() => {
@@ -75,6 +79,13 @@ const App: React.FC = () => {
       // 4b. Auto-scroll safety check
       if (isAutoScrolling && (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 1) {
         setIsAutoScrolling(false);
+      }
+
+      if (!donationShown.current && window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        donationShown.current = true;
+        setIsAutoScrolling(false);
+        setIsTiltScrolling(false);
+        donationPrompt.current?.showModal();
       }
 
       // 4c. Mandala Fade Effect
@@ -207,6 +218,11 @@ const App: React.FC = () => {
       return;
     }
 
+    if (typeof DeviceOrientationEvent === 'undefined') {
+      alert('Tilt scrolling requires a device with an orientation sensor.');
+      return;
+    }
+
     if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
       try {
         const permission = await (DeviceOrientationEvent as any).requestPermission();
@@ -256,89 +272,44 @@ const App: React.FC = () => {
     lastClickTime.current = now;
   };
 
+  useEffect(() => {
+    const stop = () => setIsAutoScrolling(false);
+    window.addEventListener('wheel', stop, { passive: true });
+    window.addEventListener('touchmove', stop, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', stop);
+      window.removeEventListener('touchmove', stop);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col font-sans transition-colors duration-500">
+    <div>
       {!isFullScreen && <Header settings={settings} updateSetting={updateSetting} />}
-      
-      <main className={`flex-grow container mx-auto px-4 ${isFullScreen ? 'pt-12 pb-24' : 'py-8 pb-32'} max-w-3xl relative`}>
-        {PRAYER_DATA.map((section: Section, sIdx: number) => (
-            <div 
-                key={`section-${sIdx}`} 
-                className="mb-8 scroll-mt-24"
-                ref={el => { sectionRefs.current[sIdx] = el; }}
-            >
-                {section.title && sIdx > 0 && (
-                     <div className="flex items-center gap-3 my-8">
-                        <div className="h-px bg-gradient-to-r from-transparent via-monk-gold/60 to-monk-red/40 dark:via-monk-saffron/50 dark:to-monk-saffron/30 flex-grow"></div>
-                        <EndlessKnot size={18} className="text-monk-red/70 dark:text-monk-saffron/80 shrink-0" />
-                        <span className="font-serif italic text-xs text-stone-500 dark:text-stone-400 uppercase tracking-[0.2em] text-center">{section.title}</span>
-                        <EndlessKnot size={18} className="text-monk-red/70 dark:text-monk-saffron/80 shrink-0" />
-                        <div className="h-px bg-gradient-to-l from-transparent via-monk-gold/60 to-monk-red/40 dark:via-monk-saffron/50 dark:to-monk-saffron/30 flex-grow"></div>
-                     </div>
-                )}
-                
-                {section.blocks.map((block) => (
-                    <PrayerBlock 
-                        key={block.id} 
-                        data={block} 
-                        settings={settings} 
-                    />
-                ))}
-
-                {/* Insert Mandala Image after the first section (Introduction) */}
-                {sIdx === 0 && (
-                    <div
-                        ref={mandalaRef}
-                        className="mt-4 mb-24 flex justify-center items-center transition-all duration-100 ease-out will-change-transform will-change-opacity"
-                    >
-                        <div className="relative w-[90vw] h-[90vw] md:w-[600px] md:h-[600px] max-w-full">
-                            {/* Aura halo */}
-                            <div className="absolute inset-[-8%] rounded-full mandala-aura animate-aura-pulse pointer-events-none" aria-hidden="true"></div>
-
-                            {/* Slowly rotating dashed gold ring */}
-                            <div className="absolute inset-[-3%] rounded-full ring-dashed-gold animate-mandala-spin opacity-70 pointer-events-none" aria-hidden="true"></div>
-
-                            {/* Main framed image */}
-                            <div className="relative p-2 md:p-3 rounded-full border border-monk-gold/40 dark:border-monk-saffron/30 shadow-[0_20px_60px_-15px_rgba(139,0,0,0.35)] dark:shadow-[0_20px_60px_-15px_rgba(255,153,51,0.25)] bg-gradient-to-br from-white/60 via-parchment to-monk-gold/10 dark:from-stone-800/70 dark:via-stone-900/50 dark:to-monk-red/20 backdrop-blur-sm w-full h-full">
-                                {/* Inner thin gold ring */}
-                                <div className="absolute inset-2 md:inset-3 rounded-full ring-1 ring-monk-gold/30 dark:ring-monk-saffron/30 pointer-events-none" aria-hidden="true"></div>
-                                <img
-                                    src="https://raw.githubusercontent.com/DonAndrutto/Media/main/kurukulla-mandala-reference-full.png"
-                                    alt="Kurukulle Mandala"
-                                    className="w-full h-full object-cover rounded-full opacity-95 hover:opacity-100 transition-opacity duration-700"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
+      <main className="reader" style={{fontSize: settings.fontSize}}>
+        {PRAYER_DATA.map((section: Section, index) => (
+          <section key={section.title} ref={el => { sectionRefs.current[index] = el; }}>
+            {index > 0 && <h2 className="section-title">{section.title}</h2>}
+            {section.blocks.map(block => <React.Fragment key={block.id}>
+              <PrayerBlock data={block} settings={settings} />
+              {block.id === 'title-1' && <a href="https://ibb.co/0RN6dS4C" target="_blank" rel="noreferrer">
+                <img className="portrait" src={portrait} alt="Kurukulle Mandala Image" width="531" height="640" />
+              </a>}
+            </React.Fragment>)}
+            {index === 0 && <div className="mandala" ref={mandalaRef}>
+              <figure><img src="https://raw.githubusercontent.com/DonAndrutto/Media/fb4334123099733c182b1a99b404b4b1cbfc5a41/kurukulla-mandala-reference-full.png" alt="Kurukulle Mandala" loading="lazy" /></figure>
+            </div>}
+          </section>
         ))}
-
-        <div className="h-40 flex flex-col items-center justify-center gap-3 text-stone-500 dark:text-stone-400">
-            <Flourish size={140} className="text-monk-gold/60 dark:text-monk-saffron/50" />
-            <div className="flex items-center gap-3 opacity-70">
-                <EndlessKnot size={16} className="text-monk-red/60 dark:text-monk-saffron/70" />
-                <span className="italic font-serif tracking-wide">Sarva Mangalam</span>
-                <EndlessKnot size={16} className="text-monk-red/60 dark:text-monk-saffron/70" />
-            </div>
-            <Flourish size={140} flip className="text-monk-gold/60 dark:text-monk-saffron/50" />
-        </div>
+        <p className="signoff">Sarva Mangalam</p>
       </main>
-
-      {/* Back Up Button */}
-      <button
-        onClick={handleBackUp}
-        className={`fixed bottom-24 right-6 z-40 p-3 rounded-full bg-gradient-to-br from-monk-red to-monk-crimson text-white ring-1 ring-monk-gold/40 shadow-xl shadow-monk-red/30 hover:shadow-monk-red/50 transition-all duration-300 transform hover:scale-110 active:scale-90 ${
-            showScrollUp ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0 pointer-events-none'
-        }`}
-        aria-label="Back to previous section (Double tap for top)"
-      >
-        <ChevronUp size={24} />
-      </button>
-
+      {showScrollUp && <button className="back-up" onClick={handleBackUp} aria-label="Back to previous section (Double tap for top)"><ChevronUp size={20}/></button>}
+      <dialog ref={donationPrompt}>
+        <p>Would you like to support more translation projects?</p>
+        <form method="dialog"><button>Later</button><a href={donationURL} target="_blank" rel="noreferrer">Donate</a></form>
+      </dialog>
       <BottomBar 
         fontSize={settings.fontSize} setFontSize={(v) => updateSetting('fontSize', v)}
-        isFullScreen={isFullScreen} toggleFullScreen={() => setIsFullScreen(p => !p)}
+        isFullScreen={isFullScreen} toggleFullScreen={toggleFullScreen}
         isDarkMode={settings.isDarkMode} toggleTheme={() => updateSetting('isDarkMode', !settings.isDarkMode)}
         isTiltScrolling={isTiltScrolling} toggleTiltScroll={toggleTiltScroll}
         isAutoScrolling={isAutoScrolling} toggleAutoScroll={toggleAutoScroll}

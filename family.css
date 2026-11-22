@@ -1,0 +1,33 @@
+/* Reading palette, type scale and controls shared with Ewam and Ngöndro. */
+:root {
+  color-scheme: light;
+  --bg: #fdfbf7; --surface: #fff; --secondary: #f5f0ea;
+  --text: #1c1917; --muted: #625b55; --accent: #8b0000; --border: #e7e5e4;
+  --bar: rgba(253,251,247,.94); --tint: rgba(139,0,0,.065);
+}
+:root.dark {
+  color-scheme: dark;
+  --bg: #1c1917; --surface: #292524; --secondary: #292524;
+  --text: #e7e5e4; --muted: #c3bdb5; --accent: #ff9933; --border: #49423c;
+  --bar: rgba(28,25,23,.94); --tint: rgba(255,153,51,.10);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.65 'EB Garamond', Georgia, serif; }
+button, select, input, .layers { font-family: Inter, sans-serif; }
+button, select, input { color: inherit; }
+button { cursor: pointer; }
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.reader-head { position: sticky; inset-block-start: 0; z-index: 5; background: var(--bar); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+.head-inner { position: relative; max-width: 54rem; margin: auto; padding: .5rem 2.75rem .55rem; text-align: center; }
+.reader-name { display: block; color: var(--accent); font: 600 clamp(1.35rem,3vw,1.65rem)/1.2 'EB Garamond',Georgia,serif; }
+.layers { display: flex; justify-content: center; gap: .35rem; margin-top: .35rem; }
+.layers button { font-size: .7rem; font-weight: 600; letter-spacing: .04em; padding: .3rem .5rem; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--muted); }
+.layers button[aria-pressed=true] { color: var(--accent); border-color: var(--accent); background: var(--tint); }
+.donate { position: absolute; right: .5rem; top: .75rem; padding: .4rem; }
+.bottom-bar { position: fixed; inset: auto 0 0; z-index: 5; padding: .65rem .5rem max(.65rem,env(safe-area-inset-bottom)); pointer-events: none; }
+.bar-inner { width: fit-content; max-width: 100%; display: flex; align-items: center; margin: auto; padding: .2rem; pointer-events: auto; border-radius: 10px; border: 1px solid var(--border); background: var(--bar); backdrop-filter: blur(12px); box-shadow: 0 2px 8px rgba(28,25,23,.10); }
+.bar-group { display: flex; align-items: center; }
+.bar-center { border-inline: 1px solid var(--border); margin-inline: .15rem; padding-inline: .15rem; }
+.bar-btn { display: grid; place-items: center; width: clamp(31px,9vw,44px); height: 42px; border: 0; background: transparent; border-radius: 6px; color: var(--muted); }
+.bar-btn:hover, .bar-btn.active { background: var(--tint); color: var(--accent); }

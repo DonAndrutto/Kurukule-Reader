@@ -25,7 +25,7 @@ export const PRAYER_DATA: Section[] = [
         id: "7line-header",
         type: "instruction",
         tibetan: "ཚིག་བདུན་གསོལ་འདེབས་ནི།",
-        english: "The Seven-Line Prayer (Repeat 3 times)"
+        english: "The Seven-Line Prayer"
       },
       {
         id: "7line-1",
@@ -82,6 +82,11 @@ export const PRAYER_DATA: Section[] = [
         tibetan: "གུ་རུ་པདྨ་སིདྡྷི་ཧཱུྃ༔",
         phonetics: "guru pema siddhi hung",
         english: ""
+      },
+      {
+        id: "repeat-12",
+        type: "instruction",
+        english: "(Recite 3 times)"
       }
     ]
   },
@@ -120,7 +125,7 @@ export const PRAYER_DATA: Section[] = [
         id: "refuge-title",
         type: "instruction",
         tibetan: "སྐྱབས་འགྲོ་ནི།",
-        english: "Refuge (Repeat 3 times)"
+        english: "Refuge"
       },
       {
         id: "refuge-1",
@@ -151,10 +156,15 @@ export const PRAYER_DATA: Section[] = [
         english: "I take refuge in the Three Roots!"
       },
       {
+        id: "repeat-22",
+        type: "instruction",
+        english: "(Recite 3 times)"
+      },
+      {
         id: "bodhicitta-title",
         type: "instruction",
         tibetan: "སེམས་བསྐྱེད་ནི།",
-        english: "Developing Bodhicitta (Repeat 3 times)"
+        english: "Developing Bodhicitta"
       },
       {
         id: "bodhicitta-1",
@@ -183,6 +193,11 @@ export const PRAYER_DATA: Section[] = [
         tibetan: "གཞན་དོན་བྱེད་པར་སེམས་བསྐྱེད་དོ།།",
         phonetics: "zhendön jepar semkye do",
         english: "I generate the spirit of Awakening for the benefit of others."
+      },
+      {
+        id: "repeat-28",
+        type: "instruction",
+        english: "(Recite 3 times)"
       }
     ]
   },
@@ -515,14 +530,14 @@ export const PRAYER_DATA: Section[] = [
         type: "verse",
         tibetan: "པའི་ཀློང་ན་རོལ་པ་པད་འདབ་བཞིའི་ཤར་དུ་ཧ་",
         phonetics: "pé long na rolpa pedab zhi shar du ha",
-        english: "In the midst of this turbulent display, on the eastern petal of the four-petaled lotus, from the syllable HA, appears the white Vajra Dakini."
+        english: "In the midst of this turbulent display, on the eastern petal of the four-petaled lotus,"
       },
       {
         id: "vis-46",
         type: "verse",
         tibetan: "ལས་རྡོ་རྗེ་མཁའ་འགྲོ་མ་དཀར་མོ།",
         phonetics: "le dorje khandroma karmo",
-        english: "(continued...)"
+        english: "from the syllable HA, appears the white Vajra Dakini."
       },
       {
         id: "vis-47",
@@ -694,7 +709,7 @@ export const PRAYER_DATA: Section[] = [
         id: "mantra-1",
         type: "mantra",
         tibetan: "ཨོཾ་པདྨ་ཌཱ་ཀི་ནཱི་ཀུ་རུ་ཀུལླེ་ཧྲཱིཿསྭཱ་ཧཱ།",
-        phonetics: "om pema dakini kuru kulle hri soha",
+        phonetics: "OM PADMA DAKINI KURU KULLE HRI SVA HA",
         english: "OM PADMA DAKINI KURU KULLE HRI SVA HA"
       },
       {
@@ -706,7 +721,7 @@ export const PRAYER_DATA: Section[] = [
         id: "mantra-2",
         type: "mantra",
         tibetan: "ཨོཾ་པདྨ་ཌཱ་ཀི་ནཱི་ཀུ་རུ་ཀུལླེ་ཧ་རི་ནི་ས་སརྦ་སིདྡྷི་ལོ་ཀ་ཝཱ་ཤཾ་ཀུ་རུ་ཧྲཱིཿསྭཱ་ཧཱ།",
-        phonetics: "om pema dakini kuru kulle ha ri ni sa sarwa siddhi loka wa shang kuru hri soha",
+        phonetics: "OM PADMA DAKINI KURU KULLE HA RI NI SA SARWA SIDDHI LOKA WA SHANG KURU HRI SVA HA",
         english: "OM PADMA DAKINI KURU KULLE HA RI NI SA SARWA SIDDHI LOKA WA SHANG KURU HRI SVA HA"
       },
       {
@@ -735,8 +750,8 @@ export const PRAYER_DATA: Section[] = [
         id: "mandala-1",
         type: "verse",
         tibetan: "ཨོཾ་ཨཱཿཧཱུྃ།",
-        phonetics: "om ah hung",
-        english: "OM AH HUNG"
+        phonetics: "OM AH HUNG",
+        english: ""
       },
       {
         id: "mandala-2",
@@ -991,9 +1006,19 @@ export const PRAYER_DATA: Section[] = [
         english: "Recite these auspicious wishes and scatter flowers into the air."
       },
       {
-        id: "footer",
+        id: "dedication",
         type: "subtitle",
-        english: "Dedicated to the long life and the constant flourishing of the enlightened activity of Gangteng Tulku Rinpoche. Translation: Andrzej Rybszleger, 2025"
+        english: "Dedicated to the long life and the constant flourishing of the enlightened activity of Gangteng Tulku Rinpoche."
+      },
+      {
+        id: "translator",
+        type: "subtitle",
+        english: "Translation: Andrzej R. Rybszleger, 2025"
+      },
+      {
+        id: "contact",
+        type: "subtitle",
+        english: "rybszlegerr@gmail.com"
       }
     ]
   }

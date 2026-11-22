@@ -1,0 +1,30 @@
+@import '@fontsource/jomolhari/400.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/eb-garamond/400.css';
+@import '@fontsource/eb-garamond/600.css';
+@import '@fontsource/eb-garamond/400-italic.css';
+@import './family.css';
+
+.reader { max-width: 52rem; margin: auto; padding: 1.5rem clamp(1rem,4vw,2.5rem) 7rem; text-align: center; }
+.reader section { scroll-margin-top: 6rem; }
+.block { margin: 1.45rem 0; font-weight: 400; white-space: pre-line; overflow-wrap: anywhere; }
+.block span { display: block; }
+.tib { font: 1.35em/1.85 Jomolhari,serif; }
+.pho { color: var(--muted); font: 600 .85em/1.55 Inter,sans-serif; letter-spacing: .035em; margin: .25rem 0; }
+.eng { max-width: 36rem; margin: auto; line-height: 1.65; }
+.block-title { color: var(--accent); font-size: 1.25em; margin: .6rem auto 1.2rem; }
+.block-title .eng { font-weight: 600; }
+.block-subtitle, .block-instruction { color: var(--muted); }
+.block-instruction .eng, .block-subtitle .eng { font-style: italic; }
+.block-mantra { background: var(--tint); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; }
+.section-title { border-bottom: 1px solid var(--border); margin: 2.75rem 0 1.25rem; padding: .75rem 0; text-align: left; color: var(--accent); font: 600 .72rem/1.5 Inter,sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+figure { margin: 1.25rem auto; }
+figure img, .portrait { display: block; max-width: 100%; max-height: 70vh; width: auto; height: auto; margin: auto; }
+.mandala img { max-height: 16rem; border-radius: 50%; }
+.signoff { font-style: italic; color: var(--muted); }
+.back-up { position: fixed; bottom: 4.8rem; right: 1rem; border: 1px solid var(--border); border-radius: 50%; background: var(--bar); color: var(--accent); padding: .55rem; display: grid; place-items: center; }
+dialog { max-width: min(24rem,90vw); background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+dialog::backdrop { background: rgba(28,25,23,.45); }
+dialog p { margin: 0 0 1rem; }
+dialog button { margin-right: 1rem; }

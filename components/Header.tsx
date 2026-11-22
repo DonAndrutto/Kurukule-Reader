@@ -1,57 +1,28 @@
-import React from 'react';
 import { Heart } from 'lucide-react';
-import { AppSettings } from '../types';
-import { Lotus } from './Ornaments';
+import type { AppSettings } from '../types';
+
+export const donationURL = 'https://www.paypal.com/donate/?business=JZS5LVZKPPY5J&no_recurring=0&item_name=Help+fund+Dharma+translation+projects.&currency_code=USD';
 
 interface HeaderProps {
   settings: AppSettings;
   updateSetting: <K extends keyof AppSettings>(key: K, value: AppSettings[K]) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ settings, updateSetting }) => {
-  
-  const toggleBtnClass = (isActive: boolean) => 
-    `text-xs px-2 py-1 rounded font-medium transition-colors border ${
-      isActive 
-        ? 'bg-monk-red/10 border-monk-red/20 text-monk-red dark:text-monk-saffron dark:border-monk-saffron/30' 
-        : 'border-transparent text-stone-400 hover:text-stone-600 dark:hover:text-stone-300'
-    }`;
+const layers = [
+  ['showTibetan', 'TIB', 'Tibetan'],
+  ['showPhonetics', 'PHO', 'Phonetics'],
+  ['showTranslation', 'ENG', 'English translation'],
+] as const;
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-monk-red/15 dark:border-monk-saffron/20 bg-white/75 dark:bg-stone-900/80 backdrop-blur-lg h-14 transition-colors duration-300 shadow-[0_1px_0_rgba(212,168,75,0.25)]">
-      <div className="container mx-auto h-full max-w-4xl px-4 flex items-center justify-between">
-
-        {/* Left: Branding */}
-        <div className="flex items-center gap-2">
-          <Lotus size={22} className="text-monk-red dark:text-monk-saffron drop-shadow-sm" />
-          <div className="font-serif font-bold text-stone-700 dark:text-stone-200 text-lg tracking-tight">
-            Kurukulle <span className="text-monk-red/70 dark:text-monk-saffron/80 font-normal italic">Sadhana</span>
-          </div>
-        </div>
-
-        {/* Right: Controls */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-800 p-1 rounded-md transition-colors duration-300">
-            <button onClick={() => updateSetting('showTibetan', !settings.showTibetan)} className={toggleBtnClass(settings.showTibetan)}>TIB</button>
-            <button onClick={() => updateSetting('showPhonetics', !settings.showPhonetics)} className={toggleBtnClass(settings.showPhonetics)}>PHO</button>
-            <button onClick={() => updateSetting('showTranslation', !settings.showTranslation)} className={toggleBtnClass(settings.showTranslation)}>ENG</button>
-          </div>
-
-          <div className="w-px h-6 bg-stone-200 dark:bg-stone-700"></div>
-
-          <a
-            href="https://www.paypal.com/donate/?business=JZS5LVZKPPY5J&no_recurring=0&item_name=Help+fund+Dharma+translation+projects.&currency_code=USD"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative p-1.5 rounded-full hover:bg-stone-200 dark:hover:bg-stone-800 text-monk-red dark:text-monk-red transition-colors"
-            aria-label="Donate"
-          >
-            <Heart size={18} className="fill-current" />
-          </a>
-        </div>
+export default function Header({ settings, updateSetting }: HeaderProps) {
+  return <header className="reader-head">
+    <div className="head-inner">
+      <span className="reader-name">Rongzompa’s Kurukullé</span>
+      <div className="layers" aria-label="Text layers">
+        {layers.map(([key, label, title]) => <button key={key} title={title}
+          aria-pressed={settings[key]} onClick={() => updateSetting(key, !settings[key])}>{label}</button>)}
       </div>
-    </header>
-  );
-};
-
-export default Header;
+      <a className="donate" href={donationURL} target="_blank" rel="noreferrer" aria-label="Donate"><Heart size={18} /></a>
+    </div>
+  </header>;
+}

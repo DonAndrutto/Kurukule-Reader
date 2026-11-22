@@ -1,20 +1,5 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Rongzompa’s Kurukullé
 
-# Run and deploy your AI Studio app
+A static Tibetan sādhana reader. The text follows the Firebase-hosted edition and retains the additional visualization verses and artwork in this repository.
 
-This contains everything you need to run your app locally.
-
-View your app in AI Studio: https://ai.studio/apps/drive/1MiB6UyrNDNbOq1s6Qk48lclBMzu8redg
-
-## Run Locally
-
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Run `npm ci` and `npm run dev` for local reading. `npm run build` produces the static site in `dist`. Pushes to `main` build and deploy it to GitHub Pages.

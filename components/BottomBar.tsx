@@ -25,13 +25,13 @@ const BottomBar: React.FC<BottomBarProps> = ({
   const handleFontSize = (amount: number) => setFontSize(Math.max(12, Math.min(fontSize + amount, 40)));
   const handleSpeed = (amount: number) => setScrollSpeed(Math.max(1, Math.min(scrollSpeed + amount, 10)));
 
-  const baseControlStyles = "flex items-center p-1 bg-white/90 dark:bg-stone-900/90 backdrop-blur-lg rounded-xl border border-monk-gold/30 dark:border-monk-saffron/20 shadow-lg shadow-monk-red/10 dark:shadow-black/30 transition-all duration-300";
-  const btnStyles = "p-2 rounded-lg hover:bg-monk-gold/10 dark:hover:bg-monk-saffron/10 text-stone-600 dark:text-stone-300 transition-colors active:scale-95 transform";
-  const activeBtnStyles = "bg-monk-red/10 text-monk-red dark:text-monk-saffron shadow-inner";
+  const baseControlStyles = "bar-group";
+  const btnStyles = "bar-btn";
+  const activeBtnStyles = "active";
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 pb-6 pointer-events-none transition-opacity duration-500">
-      <div className="relative max-w-lg mx-auto h-12 flex items-center justify-between pointer-events-auto">
+    <div className="bottom-bar">
+      <div className="bar-inner">
         
         {/* Left: Auto Scroll Controls */}
         <div className={`${baseControlStyles} gap-0`}>
@@ -47,12 +47,12 @@ const BottomBar: React.FC<BottomBarProps> = ({
         </div>
 
         {/* Center: Theme, Full Screen, Tilt */}
-        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-auto">
+        <div className="bar-center">
            <div className={`${baseControlStyles} gap-1 px-2`}>
              <button onClick={toggleTheme} className={btnStyles} aria-label="Toggle theme">
                {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
              </button>
-             <div className="w-px h-4 bg-stone-200 dark:bg-stone-700 mx-1"></div>
+             <div className="bar-divider"></div>
              <button onClick={toggleFullScreen} className={btnStyles} aria-label="Toggle full screen">
                {isFullScreen ? <Minimize size={18} /> : <Maximize size={18} />}
              </button>
